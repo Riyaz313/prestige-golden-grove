@@ -159,7 +159,7 @@ function App() {
   useEffect(() => {
     const timer = window.setTimeout(() => {
       setLaunchPopupOpen(true)
-    }, 4000)
+    }, 2000)
 
     return () => window.clearTimeout(timer)
   }, [])

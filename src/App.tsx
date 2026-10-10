@@ -239,7 +239,7 @@ function App() {
     <>
       <header className="site-header">
         <a className="brand" href="#home" aria-label="Prestige Golden Grove home">
-          <img className="brand-mark" src="/logo.svg" alt="Prestige Golden Grove" />
+          <img className="brand-mark" src="/prestigeauthlogo.jpeg" alt="Prestige Authorized Sales Partner" />
           <span className="brand-copy"><span className="brand-kicker">PRESTIGE</span><span className="brand-title">Golden Grove</span></span>
         </a>
         <nav className={menuOpen ? 'main-nav is-open' : 'main-nav'} aria-label="Main navigation">
@@ -280,7 +280,7 @@ function App() {
 
         <section className="story section-pad" id="story">
           <div className="story-image-wrap reveal">
-            <img src={asset('golden-grove-family-illustration.png')} alt="Illustration of a family enjoying a green landscape" loading="lazy" />
+            <img src={asset('townshipart360.png')} alt="Illustrated aerial view of Prestige Golden Grove towers set within landscaped grounds" loading="lazy" />
             <span className="image-note">A township designed around nature</span>
           </div>
           <div className="story-copy reveal">
@@ -497,11 +497,12 @@ function App() {
       </main>
 
       <footer className="site-footer">
-        <a className="brand footer-brand" href="#home"><img className="brand-mark footer-brand-mark" src="/logo.svg" alt="Prestige Golden Grove" /><span className="brand-copy"><span className="brand-kicker">PRESTIGE</span><span className="brand-title">Golden Grove</span></span></a>
+        <a className="brand footer-brand" href="#home"><img className="brand-mark footer-brand-mark" src="/prestigeauthlogo.jpeg" alt="Prestige Authorized Sales Partner" /><span className="brand-copy"><span className="brand-kicker">PRESTIGE</span><span className="brand-title">Golden Grove</span></span></a>
         <p>Where life finds its green.</p>
         <nav aria-label="Footer navigation"><a href="#story">The township</a><a href="#floorplans">Plans</a><a href="#location">Location</a><a href="#enquire" onClick={openEnquiryPopup}>Enquire</a></nav>
         <small>Project information shown as presented in the supplied brochure. Illustrations are indicative. Please verify current details with the project team.</small>
         <span className="copyright">© {new Date().getFullYear()} Prestige Golden Grove</span>
+        <p className="site-disclaimer">Disclaimer: This website is owned and operated by an authorized real estate marketing partner (Agent RERA No: A02500004621). This platform is intended solely for informational purposes to share verified project updates, layout details, and pricing insights regarding Prestige Golden Grove. It does not constitute an official offer, allotment, or binding contract to purchase any property. All unit availability, floor plans, and prices are subject to change without prior notice. Renderings, views, and artistic illustrations are for representational purposes only</p>
       </footer>
 
       {preview && <div className="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged project image" onClick={() => setPreview(null)}>

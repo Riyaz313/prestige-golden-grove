@@ -52,9 +52,9 @@ img { display: block; max-width: 100%; }
   backdrop-filter: blur(14px);
 }
 .brand { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; }
-.brand-mark { display: block; width: 48px; height: 59px; flex: 0 0 auto; object-fit: contain; }
-.site-header .brand-mark { width: 64px; height: 79px; }
-.footer-brand-mark { padding: 3px; background: var(--paper); }
+.brand-mark { display: block; width: 210px; height: 59px; flex: 0 0 auto; object-fit: contain; }
+.site-header .brand-mark { width: 245px; height: 69px; }
+.footer-brand-mark { width: 180px; height: 52px; background: var(--paper); }
 .brand-copy { display: flex; flex-direction: column; gap: 3px; white-space: nowrap; }
 .brand-kicker { color: var(--sage); font-size: 10px; font-weight: 700; letter-spacing: .18em; }
 .brand-title { color: var(--forest); font-family: var(--serif); font-size: 25px; line-height: 1.1; }
@@ -373,6 +373,7 @@ img { display: block; max-width: 100%; }
 .site-footer nav a { color: rgba(255,255,255,.76); font-size: 11px; }
 .site-footer > small { max-width: 610px; color: rgba(255,255,255,.6); font-size: 10px; line-height: 1.7; }
 .copyright { justify-self: end; color: rgba(255,255,255,.64); font-size: 10px; }
+.site-footer > .site-disclaimer { grid-column: 1 / -1; justify-self: stretch; max-width: none; margin: 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.15); color: rgba(255,255,255,.62); font-family: var(--sans); font-size: 12px; font-style: normal; line-height: 1.75; }
 
 .lightbox { position: fixed; z-index: 100; inset: 0; display: grid; place-items: center; padding: 38px; background: rgba(7, 20, 16, .94); animation: fade-in .2s ease both; }
 .lightbox-close { position: absolute; z-index: 1; top: 19px; right: 21px; display: grid; width: 46px; height: 46px; place-items: center; border: 1px solid rgba(255,255,255,.45); color: white; background: rgba(255,255,255,.05); cursor: pointer; }
@@ -394,7 +395,7 @@ img { display: block; max-width: 100%; }
 
 @media (max-width: 1050px) {
   .site-header { padding-inline: 3.5vw; }
-  .site-header .brand-mark { width: 58px; height: 71px; }
+  .site-header .brand-mark { width: 180px; height: 51px; }
   .brand-title { font-size: 22px; }
   .brand-kicker { font-size: 9px; }
   .main-nav { gap: 10px; margin-right: 12px; }
@@ -420,7 +421,8 @@ img { display: block; max-width: 100%; }
 @media (max-width: 760px) {
   :root { scroll-padding-top: 82px; }
   .site-header { height: 82px; padding-inline: 16px; }
-  .site-header .brand-mark { width: 54px; height: 66px; }
+  .site-header .brand-mark { width: 100px; height: 29px; }
+  .footer-brand-mark { width: 140px; height: 40px; }
   .brand { gap: 7px; }
   .brand-copy { gap: 2px; }
   .brand-kicker { font-size: 8px; }
@@ -582,10 +584,11 @@ img { display: block; max-width: 100%; }
 
 @media (max-width: 390px) {
   .header-cta { gap: 7px; padding-inline: 9px; }
-  .site-header .brand-mark { width: 48px; height: 59px; }
+  .site-header .brand-mark { width: 68px; height: 20px; }
+  .footer-brand-mark { width: 110px; height: 32px; }
   .brand { gap: 5px; }
-  .brand-title { font-size: 17px; }
-  .brand-kicker { font-size: 7px; }
+  .brand-title { font-size: 14px; }
+  .brand-kicker { display: none; }
   .hero h1 { font-size: 49px; }
   .facts-strip { padding-inline: 6%; }
   .facts-strip strong { font-size: 19px; }

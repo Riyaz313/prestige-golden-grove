@@ -139,7 +139,8 @@ function App() {
   const [planFilter, setPlanFilter] = useState('all')
   const [selectedCluster, setSelectedCluster] = useState({ page: 23, src: 'golden-grove-outdoor-amenities-master-plan.png' })
   const [preview, setPreview] = useState<Preview>(null)
-  const [launchPopupOpen, setLaunchPopupOpen] = useState(true)
+  const [launchPopupOpen, setLaunchPopupOpen] = useState(false)
+
   const [enquiryPopupOpen, setEnquiryPopupOpen] = useState(false)
   const [expandedFaq, setExpandedFaq] = useState<number | null>(0)
   const [propertyValue, setPropertyValue] = useState(0)
@@ -153,6 +154,15 @@ function App() {
   const filteredPlans = planFilter === 'all'
     ? apartmentPlans
     : apartmentPlans.filter((plan) => plan.collection === planFilter)
+
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setLaunchPopupOpen(true)
+    }, 4000)
+
+    return () => window.clearTimeout(timer)
+  }, [])
 
   useEffect(() => {
     const closeOnEscape = (event: KeyboardEvent) => {
@@ -484,7 +494,7 @@ function App() {
               <span className="contact-icon"><Mail size={19} /></span>
               <span><small>EMAIL ENQUIRIES</small><a href="mailto:ravindra@hyderabadpropertyconsultants.com">ravindra@hyderabadpropertyconsultants.com</a></span>
             </div>
-            <div className="rera-registration"><ShieldCheck size={18} /><span>TS RERA REG. NO: P02400007890</span></div>
+            <div className="rera-registration"><ShieldCheck size={18} /><span>TS RERA REG. NO: P01100010708</span></div>
           </div>
           <EnquiryForm formStatus={formStatus} whatsappUrl={whatsappUrl} onSubmit={submitEnquiry} onReset={startAnotherEnquiry} idPrefix="inline-enquiry" className="reveal" />
         </section>

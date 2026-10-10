@@ -8,6 +8,7 @@ import {
   ChevronRight,
   CircleCheck,
   Expand,
+  Lock,
   Mail,
   MapPin,
   Menu,
@@ -90,9 +91,22 @@ const specifications = [
 const questions = [
   ['Where is Prestige Golden Grove located?', 'The brochure presents the project as connected to Hyderabad’s IT corridor. It lists ORR Exits 2 and 3, Financial District, Gachibowli, HITEC City, Lingampally MMTS and Rajiv Gandhi International Airport. Use the location map for the brochure’s illustrated context.'],
   ['What apartment configurations are shown?', 'The brochure lists 2 BED Classic, 3 BED Aspire, 3 BED Premia, 3 BED Ultima, 4 BED Supreme and 4 BED Ultima. Stated home sizes range from 1,169 to 3,013 sq. ft.'],
-  ['Can I see the floor plans?', 'Yes. The apartment explorer includes all 27 brochure floor-plan crops. Select a plan to open the complete diagram at a larger size. Cluster-plan sheets and master plans are available in the plans section.'],
+  ['What are the prices?', 'The supplied campaign artwork states homes start from ₹1.90 Cr onwards for the 3 & 4 BHK offering, with a 10% initial payment, another 10% on agreement and an 80% bank loan, validity shown from 10 October to 31 December 2026. Per-configuration prices are not stated in the supplied material — submit an enquiry to request the complete price sheet.'],
+  ['Can I see the floor plans?', 'Yes. The apartment explorer includes all 27 brochure floor-plan crops. Preview any sheet in the explorer, then submit an enquiry once to unlock the full-size diagram; you can then enlarge it. Cluster-plan sheets and master plans are available in the plans section.'],
   ['What offer is shown in the campaign artwork?', 'The supplied campaign artwork describes a 3-year Pre-EMI plan: 10% initially, another 10% within 45 days of agreement signing, and an 80% loan. It states no EMI for three years, with Prestige paying the EMI, and shows validity from 10 October to 31 December 2026. Eligibility, lender approval and full terms must be confirmed with the project team.'],
   ['Does the enquiry form contact Prestige?', 'Submitting opens WhatsApp with your enquiry pre-filled for the project contact. You must tap Send in WhatsApp to send it. This website cannot confirm whether the message was delivered.'],
+]
+
+const priceSheet = [
+  ['Configurations', '2 BED Classic · 3 BED Aspire · 3 BED Premia · 3 BED Ultima · 4 BED Supreme · 4 BED Ultima'],
+  ['Stated home sizes', '1,169 – 3,013 sq. ft.'],
+  ['Initial payment', '10% at the time of booking'],
+  ['Second instalment', '10% within 45 days of agreement signing'],
+  ['Bank finance', '80% loan, subject to lender approval'],
+  ['Pre-EMI plan', 'No EMI until November 2029 · EMI paid by Prestige, as stated in the campaign'],
+  ['Offer validity shown', '10 October – 31 December 2026'],
+  ['Banks shown in campaign', 'Axis Bank · ICICI Bank · Bajaj'],
+  ['Per-unit prices, taxes & charges', 'Not stated in the supplied material — available on request'],
 ]
 
 type Preview = { src: string; alt: string } | null
@@ -150,6 +164,14 @@ function App() {
   const [formStatus, setFormStatus] = useState('')
   const [whatsappUrl, setWhatsappUrl] = useState('')
   const [galleryMotion, setGalleryMotion] = useState(false)
+  const [plansUnlocked, setPlansUnlocked] = useState(() => {
+    try {
+      return window.sessionStorage.getItem('gg-plans-unlocked') === '1'
+    } catch {
+      // sessionStorage unavailable (private mode) — unlock then lasts for this page view only
+      return false
+    }
+  })
 
   const filteredPlans = planFilter === 'all'
     ? apartmentPlans
@@ -223,7 +245,17 @@ function App() {
     chatUrl.searchParams.set('text', message)
     setWhatsappUrl(chatUrl.toString())
     setFormStatus('Thank you for your enquiry. Your message is ready in WhatsApp. Tap Send there to submit it; this website cannot verify whether it was sent.')
+    unlockPlans()
     window.open(chatUrl.toString(), '_blank', 'noopener,noreferrer')
+  }
+
+  const unlockPlans = () => {
+    setPlansUnlocked(true)
+    try {
+      window.sessionStorage.setItem('gg-plans-unlocked', '1')
+    } catch {
+      // sessionStorage unavailable — unlock lasts for this page view only
+    }
   }
 
   const startAnotherEnquiry = () => {
@@ -231,7 +263,7 @@ function App() {
     setFormStatus('')
   }
 
-  const openEnquiryPopup = (event: React.MouseEvent<HTMLAnchorElement>) => {
+  const openEnquiryPopup = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault()
     startAnotherEnquiry()
     setEnquiryPopupOpen(true)
@@ -255,7 +287,7 @@ function App() {
         <nav className={menuOpen ? 'main-nav is-open' : 'main-nav'} aria-label="Main navigation">
           {[
             ['story', 'The township'], ['gallery', 'Gallery'], ['residences', 'Residences'],
-            ['amenities', 'Amenities'], ['location', 'Location'],
+            ['pricing', 'Pricing'], ['amenities', 'Amenities'], ['location', 'Location'],
           ].map(([href, label]) => <a key={href} href={`#${href}`} onClick={() => setMenuOpen(false)}>{label}</a>)}
         </nav>
         <a className="header-cta" href="#enquire" onClick={openEnquiryPopup}>Enquire <ArrowUpRight size={15} /></a>
@@ -344,7 +376,7 @@ function App() {
         <section className="floorplans section-pad" id="floorplans">
           <div className="section-heading reveal">
             <div><span className="eyebrow light-eyebrow"><span /> A plan for living</span><h2>Find your<br /><em>point of view.</em></h2></div>
-            <p>Browse all 27 apartment plan sheets. Choose a brochure page to view the complete apartment layout, including its labels and orientation.</p>
+            <p>Browse all 27 apartment plan sheets. Choose a brochure page to preview the apartment layout, then submit an enquiry once to unlock the full-size sheet with its labels and orientation.</p>
           </div>
           <div className="plan-explorer reveal">
             <div className="plan-sidebar">
@@ -360,11 +392,21 @@ function App() {
               <p className="plan-caveat">The brochure pages are shown as complete diagrams. Verify dimensions and configuration with the project team.</p>
             </div>
             <div className="plan-display">
-              <div className="plan-display-top"><span>APARTMENT PLAN <i /> PAGE {selectedPlan.page}</span><button type="button" aria-label="Enlarge selected apartment plan" onClick={() => setPreview({ src: selectedPlan.src, alt: `Complete apartment floor plan from brochure page ${selectedPlan.page}` })}><Expand size={17} /> Enlarge</button></div>
-              <button type="button" className="plan-image-button" onClick={() => setPreview({ src: selectedPlan.src, alt: `Complete apartment floor plan from brochure page ${selectedPlan.page}` })} aria-label="Open full apartment plan">
+              <div className="plan-display-top"><span>APARTMENT PLAN <i /> PAGE {selectedPlan.page}</span>{plansUnlocked
+                ? <button type="button" aria-label="Enlarge selected apartment plan" onClick={() => setPreview({ src: selectedPlan.src, alt: `Complete apartment floor plan from brochure page ${selectedPlan.page}` })}><Expand size={17} /> Enlarge</button>
+                : <button type="button" aria-label="Unlock full view of selected apartment plan" onClick={openEnquiryPopup}><Lock size={16} /> Unlock view</button>}</div>
+              <button type="button" className={plansUnlocked ? 'plan-image-button' : 'plan-image-button is-locked'} onClick={plansUnlocked ? () => setPreview({ src: selectedPlan.src, alt: `Complete apartment floor plan from brochure page ${selectedPlan.page}` }) : openEnquiryPopup} aria-label={plansUnlocked ? 'Open full apartment plan' : 'Unlock full view of the apartment plan'}>
                 <img src={asset(selectedPlan.src)} alt={`Complete apartment floor plan from brochure page ${selectedPlan.page}`} loading="lazy" />
+                {!plansUnlocked && <span className="plan-unlock-overlay">
+                  <span className="plan-unlock-card">
+                    <span className="plan-unlock-icon"><Lock size={20} /></span>
+                    <strong>Unlock full view</strong>
+                    <span className="plan-unlock-copy">Submit an enquiry to unlock the complete brochure plan sheet at full size.</span>
+                    <span className="button button-gold plan-unlock-cta">Unlock view <ArrowRight size={15} /></span>
+                  </span>
+                </span>}
               </button>
-              <div className="plan-display-bottom"><span>Prestige Golden Grove · Apartment collection</span><span>Tap image to expand <Expand size={13} /></span></div>
+              <div className="plan-display-bottom"><span>Prestige Golden Grove · Apartment collection</span><span>{plansUnlocked ? <>Tap image to expand <Expand size={13} /></> : <>Unlock to enlarge <Lock size={12} /></>}</span></div>
             </div>
           </div>
         </section>
@@ -394,6 +436,38 @@ function App() {
               <a className="underlined-link" href="#enquire" onClick={openEnquiryPopup}>Ask about the plans <ArrowRight size={16} /></a>
             </div>
           </div>
+        </section>
+
+        <section className="pricing section-pad" id="pricing">
+          <div className="section-heading reveal">
+            <div><span className="eyebrow light-eyebrow"><span /> Clear pricing</span><h2>The numbers,<br /><em>before you visit.</em></h2></div>
+            <p>Headline pricing and payment splits exactly as stated in the supplied campaign artwork and brochure. Submit an enquiry once to unlock the complete price sheet below.</p>
+          </div>
+          <div className="price-sheet reveal">
+            <div className="price-sheet-head"><span>PRICE SHEET</span><strong>Prestige Golden Grove · Tellapur</strong><small>Campaign artwork · 10 Oct – 31 Dec 2026</small></div>
+            <div className="price-sheet-lead">
+              <div><span>STARTS FROM</span><strong>₹1.90 <small>Cr onwards</small></strong></div>
+              <p>3 &amp; 4 BHK premium homes, as stated in the supplied campaign artwork.</p>
+            </div>
+            <div className="price-sheet-body-wrap">
+              <div className={plansUnlocked ? 'price-sheet-body' : 'price-sheet-body is-locked'}>
+                <table className="price-sheet-table">
+                  <thead><tr><th scope="col">Item</th><th scope="col">Details</th></tr></thead>
+                  <tbody>{priceSheet.map(([label, value]) => <tr key={label}><th scope="row">{label}</th><td>{value}</td></tr>)}</tbody>
+                </table>
+                <p className="price-sheet-note">*Starting price is stated for the 3 &amp; 4 BHK offering in the campaign artwork; it is not a per-configuration price.</p>
+              </div>
+              {!plansUnlocked && <button type="button" className="plan-unlock-overlay price-unlock-overlay" onClick={openEnquiryPopup} aria-label="Unlock the full price sheet by opening the enquiry form">
+                <span className="plan-unlock-card">
+                  <span className="plan-unlock-icon"><Lock size={20} /></span>
+                  <strong>Unlock full view</strong>
+                  <span className="plan-unlock-copy">Submit an enquiry to unlock the complete price sheet.</span>
+                  <span className="button button-gold plan-unlock-cta">Unlock view <ArrowRight size={15} /></span>
+                </span>
+              </button>}
+            </div>
+          </div>
+          <p className="pricing-caveat">Offer and payment details are transcribed from the supplied campaign artwork (validity shown: 10 October – 31 December 2026), not independently verified. Per-configuration prices, taxes and charges are not stated in the supplied material. Eligibility, lender approval and complete terms may apply — confirm current prices with the project team.</p>
         </section>
 
         <section className="amenities section-pad" id="amenities">
@@ -509,7 +583,7 @@ function App() {
       <footer className="site-footer">
         <a className="brand footer-brand" href="#home"><img className="brand-mark footer-brand-mark" src="/prestigeauthlogo.jpeg" alt="Prestige Authorized Sales Partner" /><span className="brand-copy"><span className="brand-kicker">PRESTIGE</span><span className="brand-title">Golden Grove</span></span></a>
         <p>Where life finds its green.</p>
-        <nav aria-label="Footer navigation"><a href="#story">The township</a><a href="#floorplans">Plans</a><a href="#location">Location</a><a href="#enquire" onClick={openEnquiryPopup}>Enquire</a></nav>
+        <nav aria-label="Footer navigation"><a href="#story">The township</a><a href="#floorplans">Plans</a><a href="#pricing">Pricing</a><a href="#location">Location</a><a href="#enquire" onClick={openEnquiryPopup}>Enquire</a></nav>
         <small>Project information shown as presented in the supplied brochure. Illustrations are indicative. Please verify current details with the project team.</small>
         <span className="copyright">© {new Date().getFullYear()} Prestige Golden Grove</span>
         <p className="site-disclaimer">Disclaimer: This website is owned and operated by an authorized real estate marketing partner (Agent RERA No: A02500004621). This platform is intended solely for informational purposes to share verified project updates, layout details, and pricing insights regarding Prestige Golden Grove. It does not constitute an official offer, allotment, or binding contract to purchase any property. All unit availability, floor plans, and prices are subject to change without prior notice. Renderings, views, and artistic illustrations are for representational purposes only</p>

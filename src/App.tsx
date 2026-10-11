@@ -328,11 +328,42 @@ function App() {
           <div className="story-copy reveal">
             <span className="eyebrow"><span /> The township</span>
             <h2>A little more<br />room to <em>belong.</em></h2>
-            <p className="lead">Spread across 28.6 acres, Golden Grove is imagined as a self-sustaining community, with ten towers creating a generous green heart at the centre.</p>
+            <p className="lead">Spread across 28.6 acres, 11 acres open space, Golden Grove is imagined as a self-sustaining community, with ten towers creating a generous green heart at the centre.</p>
             <p>Thoughtful planning brings open landscapes, natural light and cross ventilation into the everyday rhythm of home.</p>
             <a className="underlined-link" href="#masterplan">Explore the master plan <ArrowRight size={16} /></a>
             <div className="story-mark">28.6 <span>acres of thoughtful planning</span></div>
           </div>
+        </section>
+
+        {/* pre emi plan section  */}
+
+        <section className="offer section-pad" id="offer">
+          <div className="offer-heading reveal">
+            <span className="eyebrow light-eyebrow"><span /> A limited-period plan</span>
+            <h2>Pre-EMI plan<br /><em>for a more considered start.</em></h2>
+            <p>A 3-year payment plan shown in the supplied Prestige Golden Grove campaign artwork.</p>
+          </div>
+          <div className="offer-feature reveal">
+            <div className="offer-visual">
+              <img src={asset('golden-grove-residential-exterior-render-b.jpg')} alt="Prestige Golden Grove towers and landscaped community" loading="lazy" />
+              <span className="offer-visual-shade" />
+              <span className="offer-visual-label">PRESTIGE GOLDEN GROVE <i /> TELLAPUR</span>
+              <div className="offer-visual-callout"><small>3-YEAR PLAN</small><strong>No EMI<br />for 3 years</strong><span>EMI paid by Prestige, as stated in the campaign</span></div>
+            </div>
+            <div className="offer-terms">
+              <div className="offer-terms-heading"><span>THE PAYMENT PLAN</span><span>AS SHOWN IN CAMPAIGN</span></div>
+              <article className="offer-step"><span className="offer-step-number">01</span><strong>10%</strong><p>Customer pays initially</p></article>
+              <article className="offer-step"><span className="offer-step-number">02</span><strong>10%</strong><p>Another 10% within 45 days of agreement signing</p></article>
+              <article className="offer-step"><span className="offer-step-number">03</span><strong>80%</strong><p>Loan, subject to lender approval</p></article>
+              <div className="offer-summary"><span>NO EMI</span><strong>Until November 2029</strong><small>Campaign also describes this as a 3-year plan, with EMI paid by Prestige.</small></div>
+            </div>
+          </div>
+          <div className="offer-footer reveal">
+            <div><span className="offer-footer-label">OFFER VALIDITY SHOWN</span><strong>10 October – 31 December 2026</strong></div>
+            <div><span className="offer-footer-label">BANKS SHOWN IN CAMPAIGN</span><strong>Axis Bank · ICICI Bank · Bajaj</strong></div>
+            <a className="button button-gold" href="#enquire" onClick={openEnquiryPopup}>Ask about this plan <ArrowRight size={16} /></a>
+          </div>
+          <p className="offer-disclaimer">Offer details are transcribed from the supplied campaign artwork, not independently verified. Eligibility, lender approval, applicable conditions and complete terms may apply; confirm details with the project team. The artwork states no EMI until November 2029 and also describes a 3-year plan.</p>
         </section>
 
         <section className="gallery-section section-pad" id="gallery">
@@ -483,7 +514,7 @@ function App() {
           <div className="amenity-list reveal"><span className="eyebrow"><span /> BROCHURE-LISTED FACILITIES</span><div>{amenities.map((amenity) => <span key={amenity}><Check size={13} />{amenity}</span>)}</div></div>
         </section>
 
-        <section className="location section-pad" id="location">
+        {/* <section className="location section-pad" id="location">
           <div className="section-heading reveal">
             <div><span className="eyebrow"><span /> Connected to the city</span><h2>Close to what<br /><em>moves you.</em></h2></div>
             <p>Travel times below are brochure estimates and can vary with route and traffic. The map is an illustration, not a navigation map.</p>
@@ -494,7 +525,91 @@ function App() {
             </button>
             <div className="connectivity-list">{connectivity.map(([time, destination], index) => <div className="connectivity-row" key={destination}><span className="connectivity-number">0{index + 1}</span><strong>{time}</strong><span>{destination}</span><ArrowUpRight size={16} /></div>)}<p className="source-note">Source: Prestige Golden Grove brochure, pages 16–18. Travel times are indicative brochure statements, not live estimates.</p></div>
           </div>
+        </section> */}
+
+        <section className="location section-pad" id="location">
+          <div className="section-heading reveal">
+            <div>
+              <span className="eyebrow">
+                <span /> Connected to the city
+              </span>
+
+              <h2>
+                Close to what
+                <br />
+                <em>moves you.</em>
+              </h2>
+            </div>
+
+            <p>
+              Travel times below are brochure estimates and can vary with
+              route and traffic. The map is an illustration, not a navigation map.
+            </p>
+          </div>
+
+          <div className="location-layout reveal">
+            <div className="location-map">
+              {/* Clicking the image opens the enlarged preview */}
+              <button
+                type="button"
+                className="location-map-image"
+                aria-label="Enlarge brochure location map"
+                onClick={() =>
+                  setPreview({
+                    src: "golden-grove-location-map.png",
+                    alt: "Illustrated location map from the Prestige Golden Grove brochure",
+                  })
+                }
+              >
+                <img
+                  src={asset("golden-grove-location-map.png")}
+                  alt="Illustrated Prestige Golden Grove location map"
+                  loading="lazy"
+                />
+              </button>
+
+              {/* Only clicking VIEW MAP opens Google Maps */}
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=Prestige+Golden+Grove+Tellapur+Hyderabad"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="location-map-cta"
+                aria-label="Open Prestige Golden Grove in Google Maps"
+              >
+                <MapPin size={15} />
+                <span>VIEW MAP</span>
+                <Expand size={14} />
+              </a>
+            </div>
+
+            <div className="connectivity-list">
+              {connectivity.map(([time, destination], index) => (
+                <div
+                  className="connectivity-row"
+                  key={destination}
+                >
+                  <span className="connectivity-number">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+
+                  <strong>{time}</strong>
+
+                  <span>{destination}</span>
+
+                  <ArrowUpRight size={16} />
+                </div>
+              ))}
+
+              <p className="source-note">
+                Source: Prestige Golden Grove brochure, pages 16–18.
+                Travel times are indicative brochure statements, not live estimates.
+              </p>
+            </div>
+          </div>
         </section>
+
+
+
 
         <section className="specifications section-pad" id="specifications">
           <div className="section-heading reveal">
@@ -503,35 +618,6 @@ function App() {
           </div>
           <div className="spec-grid reveal">{specifications.map(([title, detail], index) => <article className="spec-item" key={title}><span>0{index + 1}</span><div><h3>{title}</h3><p>{detail}</p></div><Plus size={16} /></article>)}</div>
           <p className="spec-note">Specifications are brochure-stated and subject to the project’s applicable documentation.</p>
-        </section>
-
-        <section className="offer section-pad" id="offer">
-          <div className="offer-heading reveal">
-            <span className="eyebrow light-eyebrow"><span /> A limited-period plan</span>
-            <h2>Pre-EMI plan<br /><em>for a more considered start.</em></h2>
-            <p>A 3-year payment plan shown in the supplied Prestige Golden Grove campaign artwork.</p>
-          </div>
-          <div className="offer-feature reveal">
-            <div className="offer-visual">
-              <img src={asset('golden-grove-residential-exterior-render-b.jpg')} alt="Prestige Golden Grove towers and landscaped community" loading="lazy" />
-              <span className="offer-visual-shade" />
-              <span className="offer-visual-label">PRESTIGE GOLDEN GROVE <i /> TELLAPUR</span>
-              <div className="offer-visual-callout"><small>3-YEAR PLAN</small><strong>No EMI<br />for 3 years</strong><span>EMI paid by Prestige, as stated in the campaign</span></div>
-            </div>
-            <div className="offer-terms">
-              <div className="offer-terms-heading"><span>THE PAYMENT PLAN</span><span>AS SHOWN IN CAMPAIGN</span></div>
-              <article className="offer-step"><span className="offer-step-number">01</span><strong>10%</strong><p>Customer pays initially</p></article>
-              <article className="offer-step"><span className="offer-step-number">02</span><strong>10%</strong><p>Another 10% within 45 days of agreement signing</p></article>
-              <article className="offer-step"><span className="offer-step-number">03</span><strong>80%</strong><p>Loan, subject to lender approval</p></article>
-              <div className="offer-summary"><span>NO EMI</span><strong>Until November 2029</strong><small>Campaign also describes this as a 3-year plan, with EMI paid by Prestige.</small></div>
-            </div>
-          </div>
-          <div className="offer-footer reveal">
-            <div><span className="offer-footer-label">OFFER VALIDITY SHOWN</span><strong>10 October – 31 December 2026</strong></div>
-            <div><span className="offer-footer-label">BANKS SHOWN IN CAMPAIGN</span><strong>Axis Bank · ICICI Bank · Bajaj</strong></div>
-            <a className="button button-gold" href="#enquire" onClick={openEnquiryPopup}>Ask about this plan <ArrowRight size={16} /></a>
-          </div>
-          <p className="offer-disclaimer">Offer details are transcribed from the supplied campaign artwork, not independently verified. Eligibility, lender approval, applicable conditions and complete terms may apply; confirm details with the project team. The artwork states no EMI until November 2029 and also describes a 3-year plan.</p>
         </section>
 
         <section className="calculator section-pad" id="calculator">
